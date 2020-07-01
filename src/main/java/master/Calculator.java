@@ -24,16 +24,16 @@ public class Calculator{
 
     public void Calculate() {
         try {
-            p = Class.forName("basic."+product);
+            p = Class.forName("item.basic."+product);
             System.out.println(p.getName());
         } catch (ClassNotFoundException a) {
             System.out.println("Not a Basic Product");
             try {
-                p = Class.forName("intermediate."+product);
+                p = Class.forName("item.intermediate."+product);
             } catch (ClassNotFoundException b) {
                 System.out.println("Not an intermediate Product");
                 try {
-                    p = Class.forName("advanced."+product);
+                    p = Class.forName("item.advanced."+product);
                 } catch (ClassNotFoundException c) {
                     System.out.println("Null");
                 }
