@@ -30,7 +30,7 @@ public class QuartzCrystal extends ItemBase {
     double RawQuartz = num * (9 / 7.0);
     double water = num * (5 / 7.0);
     append(ds.format(num) + " Pure Quartz Crystal / Minute: " + ds.format(RawQuartz) + " Raw Quartz / minute |  " +
-        ds.format(water) + " water(m3) / minute. Requires  " + ds.format(num / 52.5) + " Refineries\n\n");
+        ds.format(water) + " Water(m3) / minute. Requires  " + ds.format(num / 52.5) + " Refineries\n\n");
   }
 
 }

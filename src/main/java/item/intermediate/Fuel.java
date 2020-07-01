@@ -44,7 +44,7 @@ public class Fuel extends ItemBase {
   public void dilutedFuel() {
     double heavyOilResidue = num / 2;
     double Water = num;
-    append(ds.format(num) + " Packaged Fuel(m3) / Minute:  " + ds.format(heavyOilResidue) + " Heavy Oil Residue / minute |  " +
+    append(ds.format(num) + " Packaged Fuel / Minute:  " + ds.format(heavyOilResidue) + " Heavy Oil Residue / minute |  " +
         ds.format(Water) + " Packaged Water / minute. Requires  " + ds.format(num / 60) + " Refineries\n\n");
 
     append(ds.format(Water) + " Packaged Water / Minute:  " + ds.format(Water) + " Water(m3) / Minute. Requires  " + ds.format(Water / 60)
