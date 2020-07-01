@@ -5,32 +5,23 @@
  */
 package item.basic;
 
+import item.Item;
+import item.ItemBase;
+
 import javax.swing.*;
-import java.text.DecimalFormat;
-import java.util.List;
+import java.util.Map;
 
-/**
- *
- * @author kiwi0
- */
-public class SteelBeam {
+public class SteelBeam extends ItemBase {
 
-    private double num;
-    private List<JComboBox<String>> alternateRecipes;
-    private JTextArea output;
-    private DecimalFormat ds = new DecimalFormat("#.##");
+  public SteelBeam(double num, Map<Item, JComboBox<String>> alternateRecipes, JTextArea output) {
+    super(num, alternateRecipes, output);
+    defaultSteelBeam();
+  }
 
-    public SteelBeam(double num, List<JComboBox<String>> alternateRecipes, JTextArea output) {
-        this.num = num;
-        this.output = output;
-        this.alternateRecipes = alternateRecipes;
-        defaultSteelBeam();
-    }
-
-    public void defaultSteelBeam() {
-        double SteelIngots = num * 4;
-        output.append(ds.format(num) + " Steel Beams / Minute:  " + ds.format(SteelIngots) + " Steel Ingots / minute. Requires  " + ds.format(num/15) + " Constructors\n\n");
-        new SteelIngot(SteelIngots,alternateRecipes,output);
-    }
+  public void defaultSteelBeam() {
+    double SteelIngots = num * 4;
+    append(ds.format(num) + " Steel Beams / Minute:  " + ds.format(SteelIngots) + " Steel Ingots / minute. Requires  " + ds.format(num / 15) + " Constructors\n\n");
+    new SteelIngot(SteelIngots, alternateRecipes, output);
+  }
 
 }

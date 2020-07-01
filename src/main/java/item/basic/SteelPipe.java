@@ -5,32 +5,23 @@
  */
 package item.basic;
 
+import item.Item;
+import item.ItemBase;
+
 import javax.swing.*;
-import java.text.DecimalFormat;
-import java.util.List;
+import java.util.Map;
 
-/**
- *
- * @author kiwi0
- */
-public class SteelPipe {
+public class SteelPipe extends ItemBase {
 
-    private double num;
-    private List<JComboBox<String>> alternateRecipes;
-    private JTextArea output;
-    private DecimalFormat ds = new DecimalFormat("#.##");
+  public SteelPipe(double num, Map<Item, JComboBox<String>> alternateRecipes, JTextArea output) {
+    super(num, alternateRecipes, output);
+    defaultSteelPipe();
+  }
 
-    public SteelPipe(double num, List<JComboBox<String>> alternateRecipes, JTextArea output) {
-        this.num = num;
-        this.output = output;
-        this.alternateRecipes = alternateRecipes;
-        defaultSteelPipe();
-    }
-
-    public void defaultSteelPipe() {
-        double SteelIngots = num * (3/2.0);
-        output.append(ds.format(num) + " Steel Pipes / Minute:  " + ds.format(SteelIngots) + " Steel Ingots / minute. Requires  " + ds.format(num/20) + " Constructors\n\n");
-        new SteelIngot(SteelIngots,alternateRecipes,output);
-    }
+  public void defaultSteelPipe() {
+    double SteelIngots = num * (3 / 2.0);
+    append(ds.format(num) + " Steel Pipes / Minute:  " + ds.format(SteelIngots) + " Steel Ingots / minute. Requires  " + ds.format(num / 20) + " Constructors\n\n");
+    new SteelIngot(SteelIngots, alternateRecipes, output);
+  }
 
 }

@@ -5,56 +5,52 @@
  */
 package item.intermediate;
 
+import item.Item;
+import item.ItemBase;
 import item.basic.Concrete;
 import item.basic.SteelBeam;
 import item.basic.SteelPipe;
 
 import javax.swing.*;
-import java.text.DecimalFormat;
-import java.util.List;
+import java.util.Map;
 
 /**
- *
  * @author kiwi0
  */
-public class EncasedIndustrialBeam {
+public class EncasedIndustrialBeam extends ItemBase {
 
-    private double num;
-    private List<JComboBox<String>> alternateRecipes;
-    private JTextArea output;
-    private DecimalFormat ds = new DecimalFormat("#.##");
+  public EncasedIndustrialBeam(double num, Map<Item, JComboBox<String>> alternateRecipes, JTextArea output) {
+    super(num, alternateRecipes, output, Item.ENCASED_INDUSTRIAL_BEAM);
 
-    public EncasedIndustrialBeam(double num, List<JComboBox<String>> alternateRecipes, JTextArea output) {
-        this.num = num;
-        this.output = output;
-        this.alternateRecipes = alternateRecipes;
-
-        if (alternateRecipes.get(21).getSelectedItem().toString() == "Default") {
-            defaultEIB();
-        } else if (alternateRecipes.get(21).getSelectedItem().toString() == "Pipe") {
-            pipeEIB();
-        }
+    switch (getAlternateRecipeSelectedItem()) {
+      case "Default":
+        defaultEIB();
+        break;
+      case "Pipe":
+        pipeEIB();
+        break;
     }
+  }
 
-        public void defaultEIB() {
-            double steelBeam = num * 4;
-            double concrete = num * 5;
-            output.append(ds.format(num) + " Encased Industrial Beam / Minute:  " + ds.format(steelBeam) + " Steel Beam / minute |  " +
-                    ds.format(concrete) + " Concrete / minute. Requires  " + ds.format(num / 6) + " Assemblers\n\n");
-            new SteelBeam(steelBeam,alternateRecipes,output);
-            output.append("-\n\n");
-            new Concrete(concrete,alternateRecipes,output);
-        }
+  public void defaultEIB() {
+    double steelBeam = num * 4;
+    double concrete = num * 5;
+    append(ds.format(num) + " Encased Industrial Beam / Minute:  " + ds.format(steelBeam) + " Steel Beam / minute |  " +
+        ds.format(concrete) + " Concrete / minute. Requires  " + ds.format(num / 6) + " Assemblers\n\n");
+    new SteelBeam(steelBeam, alternateRecipes, output);
+    append("-\n\n");
+    new Concrete(concrete, alternateRecipes, output);
+  }
 
-        public void pipeEIB () {
-            double steelPipe = num * 7;
-            double concrete = num * 5;
-            output.append(ds.format(num) + " Encased Industrial Pipe / Minute:  " + ds.format(steelPipe) + " Steel Pipe / minute |  " +
-                    ds.format(concrete) + " Concrete / minute. Requires  " + ds.format(num / 4) + " Assemblers\n\n");
-            new SteelPipe(steelPipe, alternateRecipes, output);
-            output.append("-\n\n");
-            new Concrete(concrete, alternateRecipes, output);
+  public void pipeEIB() {
+    double steelPipe = num * 7;
+    double concrete = num * 5;
+    append(ds.format(num) + " Encased Industrial Pipe / Minute:  " + ds.format(steelPipe) + " Steel Pipe / minute |  " +
+        ds.format(concrete) + " Concrete / minute. Requires  " + ds.format(num / 4) + " Assemblers\n\n");
+    new SteelPipe(steelPipe, alternateRecipes, output);
+    append("-\n\n");
+    new Concrete(concrete, alternateRecipes, output);
 
-        }
+  }
 
-    }
+}

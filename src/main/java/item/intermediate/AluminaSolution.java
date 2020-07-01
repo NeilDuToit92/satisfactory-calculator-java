@@ -5,37 +5,30 @@
  */
 package item.intermediate;
 
+import item.Item;
+import item.ItemBase;
+
 import javax.swing.*;
-import java.text.DecimalFormat;
-import java.util.List;
+import java.util.Map;
 
 /**
- *
  * @author kiwi0
  */
-public class AluminaSolution {
+public class AluminaSolution extends ItemBase {
 
-    private double num;
-    private List<JComboBox<String>> alternateRecipes;
-    private JTextArea output;
-    private DecimalFormat ds = new DecimalFormat("#.##");
+  public AluminaSolution(double num, Map<Item, JComboBox<String>> alternateRecipes, JTextArea output) {
+    super(num, alternateRecipes, output);
+    defaultAluminaSolution();
+  }
 
-    public AluminaSolution(double num, List<JComboBox<String>> alternateRecipes, JTextArea output) {
-        this.num = num;
-        this.output = output;
-        this.alternateRecipes = alternateRecipes;
-
-        defaultAluminaSolution();
-    }
-
-    public void defaultAluminaSolution() {
-        double silica = num / 4;
-        double bauxite = num * (7/8.0);
-        double water = num * (10/8.0);
-        output.append(ds.format(num) + " Alumina Solution(m3) / Minute: and  " + ds.format(silica) + " Silica / Minute" +
-                ":  " + ds.format(bauxite) + " Bauxite / minute |  " +
-                ds.format(water) +" Water(m3) / minute. Requires  " + ds.format(num/80) + " Refineries\n\n");
-    }
+  public void defaultAluminaSolution() {
+    double silica = num / 4;
+    double bauxite = num * (7 / 8.0);
+    double water = num * (10 / 8.0);
+    append(ds.format(num) + " Alumina Solution(m3) / Minute: and  " + ds.format(silica) + " Silica / Minute" +
+        ":  " + ds.format(bauxite) + " Bauxite / minute |  " +
+        ds.format(water) + " Water(m3) / minute. Requires  " + ds.format(num / 80) + " Refineries\n\n");
+  }
 
 
 }

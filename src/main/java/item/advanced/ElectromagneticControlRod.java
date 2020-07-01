@@ -5,67 +5,63 @@
  */
 package item.advanced;
 
+import item.Item;
+import item.ItemBase;
 import item.intermediate.AILimiter;
 import item.intermediate.Stator;
 import master.textHighlighter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.text.DecimalFormat;
-import java.util.List;
+import java.util.Map;
 
 /**
- *
  * @author kiwi0
  */
-public class ElectromagneticControlRod {
+public class ElectromagneticControlRod extends ItemBase {
 
-    private double num;
-    private List<JComboBox<String>> alternateRecipes;
-    private JTextArea output;
-    private DecimalFormat ds = new DecimalFormat("#.##");
+  public ElectromagneticControlRod(double num, Map<Item, JComboBox<String>> alternateRecipes, JTextArea output) {
+    super(num, alternateRecipes, output, Item.ELECTROMAGNETIC_CONTROL_ROD);
 
-    public ElectromagneticControlRod(double num, List<JComboBox<String>> alternateRecipes, JTextArea output) {
-        this.num = num;
-        this.output = output;
-        this.alternateRecipes = alternateRecipes;
-
-        if(alternateRecipes.get(29).getSelectedItem().toString() == "Default") {
-            defaultControlRod();
-        } else if(alternateRecipes.get(29).getSelectedItem().toString() == "Connection") {
-            connectionControlRod();
-        }
+    switch (getAlternateRecipeSelectedItem()) {
+      case "Default":
+        defaultControlRod();
+        break;
+      case "Connection":
+        connectionControlRod();
+        break;
     }
+  }
 
-    public void defaultControlRod() {
-        double stators = num * (3/2.0);
-        double aiLimiters = num;
-        output.append(ds.format(num) + " Electromagnetic Control Rods / Minute:  " + ds.format(stators) + " Stators / minute |  " +
-                ds.format(aiLimiters) +" AI Limiters / minute. Requires  " + ds.format(num/4) + " Assemblers\n\n");
+  public void defaultControlRod() {
+    double stators = num * (3 / 2.0);
+    double aiLimiters = num;
+    append(ds.format(num) + " Electromagnetic Control Rods / Minute:  " + ds.format(stators) + " Stators / minute |  " +
+        ds.format(aiLimiters) + " AI Limiters / minute. Requires  " + ds.format(num / 4) + " Assemblers\n\n");
 
-        output.append("v-Control Rod Start-v\n\n");
-        new textHighlighter("v-Control Rod Start-v", new Color(147,10,45),output);
-        new Stator(stators,alternateRecipes,output);
-        output.append("-----\n\n");
-        new AILimiter(aiLimiters,alternateRecipes,output);
-        output.append("^-Control Rod End-^\n\n");
-        new textHighlighter("^-Control Rod End-^", new Color(147,10,45),output);
+    append("v-Control Rod Start-v\n\n");
+    new textHighlighter("v-Control Rod Start-v", new Color(147, 10, 45), output);
+    new Stator(stators, alternateRecipes, output);
+    append("-----\n\n");
+    new AILimiter(aiLimiters, alternateRecipes, output);
+    append("^-Control Rod End-^\n\n");
+    new textHighlighter("^-Control Rod End-^", new Color(147, 10, 45), output);
 
-    }
+  }
 
-    public void connectionControlRod() {
-        double stators = num;
-        double highspeedConnectors = num * (1/2.0);
-        output.append(ds.format(num) + " Electromagnetic Connection Rods / Minute:  " + ds.format(stators) + " Stators / minute |  " +
-                ds.format(highspeedConnectors) +" High-Speed Connectors / minute. Requires  " + ds.format(num/10) + " Assemblers\n\n");
+  public void connectionControlRod() {
+    double stators = num;
+    double highspeedConnectors = num * (1 / 2.0);
+    append(ds.format(num) + " Electromagnetic Connection Rods / Minute:  " + ds.format(stators) + " Stators / minute |  " +
+        ds.format(highspeedConnectors) + " High-Speed Connectors / minute. Requires  " + ds.format(num / 10) + " Assemblers\n\n");
 
-        output.append("v-Connection Control Rod Start-v\n\n");
-        new textHighlighter("v-Connection Control Rod Start-v", new Color(147,10,45),output);
-        new Stator(stators,alternateRecipes,output);
-        output.append("-----\n\n");
-        new HighSpeedConnector(highspeedConnectors,alternateRecipes,output);
-        output.append("^-Connection Control Rod End-^\n\n");
-        new textHighlighter("^-Connection Control Rod End-^", new Color(147,10,45),output);
-    }
+    append("v-Connection Control Rod Start-v\n\n");
+    new textHighlighter("v-Connection Control Rod Start-v", new Color(147, 10, 45), output);
+    new Stator(stators, alternateRecipes, output);
+    append("-----\n\n");
+    new HighSpeedConnector(highspeedConnectors, alternateRecipes, output);
+    append("^-Connection Control Rod End-^\n\n");
+    new textHighlighter("^-Connection Control Rod End-^", new Color(147, 10, 45), output);
+  }
 
 }

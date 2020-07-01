@@ -5,56 +5,54 @@
  */
 package item.intermediate;
 
+import item.Item;
+import item.ItemBase;
 import item.basic.ReinforcedIronPlate;
 import item.basic.Rotor;
 
 import javax.swing.*;
-import java.text.DecimalFormat;
-import java.util.List;
+import java.util.Map;
 
 /**
- *
  * @author kiwi0
  */
-public class SmartPlating {
+public class SmartPlating extends ItemBase {
 
-    private double num;
-    private List<JComboBox<String>> alternateRecipes;
-    private JTextArea output;
-    private DecimalFormat ds = new DecimalFormat("#.##");
+  public SmartPlating(double num, Map<Item, JComboBox<String>> alternateRecipes, JTextArea output) {
+    super(num, alternateRecipes, output, Item.SMART_PLATING);
 
-    public SmartPlating(double num, List<JComboBox<String>> alternateRecipes, JTextArea output) {
-        this.num = num;
-        this.output = output;
-        this.alternateRecipes = alternateRecipes;
-        if(alternateRecipes.get(16).getSelectedItem().toString() == "Default") {
-            defaultSmartPlate();
-        } else if(alternateRecipes.get(16).getSelectedItem().toString() == "Plastic") {
-            plasticSmartPlate();
-        }
+    switch (getAlternateRecipeSelectedItem()) {
+      case "Default":
+        defaultSmartPlate();
+        break;
+      case "Plastic":
+        plasticSmartPlate();
+        break;
     }
+  }
 
-    public void defaultSmartPlate() {
-        double reinforcedIronPlate = num;
-        double rotor = num;
-        output.append(ds.format(num) + " Smart Plates / Minute:  " + ds.format(reinforcedIronPlate) + " R.I.P / minute |  " +
-                ds.format(rotor) +" Rotors / minute. Requires  " + ds.format(num/2) + " Assemblers\n\n");
-        new ReinforcedIronPlate(reinforcedIronPlate,alternateRecipes,output);
-        output.append("-\n\n");
-        new Rotor(rotor,alternateRecipes,output);
-    }
-    public void plasticSmartPlate() {
-        double reinforcedIronPlate = num / 2;
-        double rotor = num / 2;
-        double plastic = num * (3/2.0);
-        output.append(ds.format(num) + " Plastic Smart Plates / Minute:  " + ds.format(reinforcedIronPlate) + " R.I.P / minute |  " +
-                ds.format(rotor) +" Rotors / minute |  " + ds.format(plastic) + " Plastic / Minute" +
-                ". Requires  " + ds.format(num/5) + " Manufacturers\n\n");
-        new ReinforcedIronPlate(reinforcedIronPlate,alternateRecipes,output);
-        output.append("-\n\n");
-        new Rotor(rotor,alternateRecipes,output);
-        output.append("-\n\n");
-        new Plastic(plastic,alternateRecipes,output);
-    }
+  public void defaultSmartPlate() {
+    double reinforcedIronPlate = num;
+    double rotor = num;
+    append(ds.format(num) + " Smart Plates / Minute:  " + ds.format(reinforcedIronPlate) + " R.I.P / minute |  " +
+        ds.format(rotor) + " Rotors / minute. Requires  " + ds.format(num / 2) + " Assemblers\n\n");
+    new ReinforcedIronPlate(reinforcedIronPlate, alternateRecipes, output);
+    append("-\n\n");
+    new Rotor(rotor, alternateRecipes, output);
+  }
+
+  public void plasticSmartPlate() {
+    double reinforcedIronPlate = num / 2;
+    double rotor = num / 2;
+    double plastic = num * (3 / 2.0);
+    append(ds.format(num) + " Plastic Smart Plates / Minute:  " + ds.format(reinforcedIronPlate) + " R.I.P / minute |  " +
+        ds.format(rotor) + " Rotors / minute |  " + ds.format(plastic) + " Plastic / Minute" +
+        ". Requires  " + ds.format(num / 5) + " Manufacturers\n\n");
+    new ReinforcedIronPlate(reinforcedIronPlate, alternateRecipes, output);
+    append("-\n\n");
+    new Rotor(rotor, alternateRecipes, output);
+    append("-\n\n");
+    new Plastic(plastic, alternateRecipes, output);
+  }
 
 }

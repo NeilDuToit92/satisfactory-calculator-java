@@ -5,33 +5,27 @@
  */
 package item.intermediate;
 
+import item.Item;
+import item.ItemBase;
+
 import javax.swing.*;
-import java.text.DecimalFormat;
-import java.util.List;
+import java.util.Map;
 
 /**
- *
  * @author kiwi0
  */
-public class SulfuricAcid {
+public class SulfuricAcid extends ItemBase {
 
-    private double num;
-    private List<JComboBox<String>> alternateRecipes;
-    private JTextArea output;
-    private DecimalFormat ds = new DecimalFormat("#.##");
+  public SulfuricAcid(double num, Map<Item, JComboBox<String>> alternateRecipes, JTextArea output) {
+    super(num, alternateRecipes, output);
+    defaultSulfuricAcid();
+  }
 
-    public SulfuricAcid(double num, List<JComboBox<String>> alternateRecipes, JTextArea output) {
-        this.num = num;
-        this.output = output;
-        this.alternateRecipes = alternateRecipes;
-        defaultSulfuricAcid();
-    }
-
-    public void defaultSulfuricAcid() {
-        double sulfur = num / 2;
-        double water = num / 2;
-        output.append(ds.format(num) + " Sulfuric Acid(m3) / Minute:  " + ds.format(sulfur) + " Sulfur / minute |  " +
-                ds.format(water) +" Water(m3) / minute. Requires  " + ds.format(num/100) + " Refineries\n\n");
-    }
+  public void defaultSulfuricAcid() {
+    double sulfur = num / 2;
+    double water = num / 2;
+    append(ds.format(num) + " Sulfuric Acid(m3) / Minute:  " + ds.format(sulfur) + " Sulfur / minute |  " +
+        ds.format(water) + " Water(m3) / minute. Requires  " + ds.format(num / 100) + " Refineries\n\n");
+  }
 
 }

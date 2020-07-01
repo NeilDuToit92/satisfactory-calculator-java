@@ -1,29 +1,23 @@
 package item.basic;
 
+import item.Item;
+import item.ItemBase;
 import item.intermediate.HeavyOilResidue;
 
 import javax.swing.*;
-import java.text.DecimalFormat;
-import java.util.List;
+import java.util.Map;
 
-public class PetroleumCoke {
+public class PetroleumCoke extends ItemBase {
 
-    private double num;
-    private List<JComboBox<String>> alternateRecipes;
-    private JTextArea output;
-    private DecimalFormat ds = new DecimalFormat("#.##");
+  public PetroleumCoke(double num, Map<Item, JComboBox<String>> alternateRecipes, JTextArea output) {
+    super(num, alternateRecipes, output);
+    defaultCoke();
+  }
 
-    public PetroleumCoke(double num, List<JComboBox<String>> alternateRecipes, JTextArea output) {
-        this.num = num;
-        this.output = output;
-        this.alternateRecipes = alternateRecipes;
-        defaultCoke();
-    }
-
-    public void defaultCoke() {
-        double HeavyOilResidue = num / 3;
-        output.append(ds.format(num) + " Petroleum Coke / Minute:  " + ds.format(HeavyOilResidue) + " Heavy Oil Residue(m3)" +
-                " / minute. Requires  " + ds.format(num/120) + " Refineries\n\n");
-        new HeavyOilResidue(HeavyOilResidue,alternateRecipes,output);
-    }
+  public void defaultCoke() {
+    double HeavyOilResidue = num / 3;
+    append(ds.format(num) + " Petroleum Coke / Minute:  " + ds.format(HeavyOilResidue) + " Heavy Oil Residue(m3)" +
+        " / minute. Requires  " + ds.format(num / 120) + " Refineries\n\n");
+    new HeavyOilResidue(HeavyOilResidue, alternateRecipes, output);
+  }
 }

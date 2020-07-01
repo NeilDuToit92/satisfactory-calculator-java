@@ -5,65 +5,78 @@
  */
 package item.basic;
 
+import item.Item;
+import item.ItemBase;
 
 import javax.swing.*;
-import java.text.DecimalFormat;
-import java.util.List;
+import java.util.Map;
 
-/**
- *
- * @author kiwi0
- */
-public class Rotor {
+//Created a new ItemBase class so that code is not duplicated, seeing as all items have the same fields
+public class Rotor extends ItemBase {
+  /*
+   * Made all of these constants, now they are much easier to update if the values ever need to change
+   * Would also as a next step load them from a file, that way you can change them without having to recompile
+   */
+  public static final int DEFAULT_ROTOR_IRON_RODS = 5;
+  public static final int DEFAULT_ROTOR_SCREWS = 25;
+  public static final int DEFAULT_ROTOR_AMT_PER_MINUTE = 4;
 
-    private double num;
-    private List<JComboBox<String>> alternateRecipes;
-    private JTextArea output;
-    private DecimalFormat ds = new DecimalFormat("#.##");
+  public static final int COPPER_ROTOR_COPPER_SHEETS = 2;
+  public static final double COPPER_ROTOR_SCREWS = 52 / 3.0;
+  public static final double COPPER_ROTOR_AMT_PER_MINUTE = 11.25;
 
-    public Rotor(double num, List<JComboBox<String>> alternateRecipes, JTextArea output) {
-        this.num = num;
-        this.output = output;
-        this.alternateRecipes = alternateRecipes;
+  public static final int STEEL_ROTOR_STEEL_PIPES = 2;
+  public static final int STEEL_ROTOR_WIRE = 6;
+  public static final int STEEL_ROTOR_AMT_PER_MINUTE = 5;
 
-        if(alternateRecipes.get(20).getSelectedItem().toString() == "Default") {
-            defaultRotor();
-        } else if(alternateRecipes.get(20).getSelectedItem().toString() == "Copper") {
-            copperRotor();
-        } else if(alternateRecipes.get(3).getSelectedItem().toString() == "Steel") {
-            steelRotor();
-        }
+  public Rotor(double num, Map<Item, JComboBox<String>> alternateRecipes, JTextArea output) {
+    //Call the constructor of ItemBasic
+    super(num, alternateRecipes, output, Item.ROTOR);
+
+    //Switch reads a lot easier than a bunch of if statements
+    switch (getAlternateRecipeSelectedItem()) {
+      case "Copper":
+        copperRotor();
+        break;
+      case "Steel":
+        steelRotor();
+        break;
+      case "Default":
+      default:
+        defaultRotor();
+        break;
     }
+  }
 
-    public void defaultRotor() {
-        double IronRods = num * 5;
-        double Screws = num * 25;
-        output.append(ds.format(num) + " Rotors / Minute:  " + ds.format(IronRods) + " Iron Rods / minute |  " +
-                ds.format(Screws) +" Screws / minute. Requires  " + ds.format(num/4) + " Assemblers\n\n");
-        new IronRod(IronRods,alternateRecipes,output);
-        output.append("-\n\n");
-        new Screw(Screws,alternateRecipes,output);
-    }
+  public void defaultRotor() {
+    double IronRods = num * DEFAULT_ROTOR_IRON_RODS;
+    double Screws = num * DEFAULT_ROTOR_SCREWS;
+    append(ds.format(num) + " Rotors / Minute:  " + ds.format(IronRods) + " Iron Rods / minute |  " +
+        ds.format(Screws) + " Screws / minute. Requires  " + ds.format(num / DEFAULT_ROTOR_AMT_PER_MINUTE) + " Assemblers\n\n");
+    new IronRod(IronRods, alternateRecipes, output);
+    append("-\n\n");
+    new Screw(Screws, alternateRecipes, output);
+  }
 
-    public void copperRotor() {
-        double CopperSheets = num * (2);
-        double Screws = num * (52/3.0);
-        output.append(ds.format(num) + " Copper Rotors / Minute:  " + ds.format(CopperSheets) + " Copper Sheets / minute |  " +
-                ds.format(Screws) +" Screws / minute. Requires  " + ds.format(num/11.25) + " Assemblers\n\n");
-        new CopperSheet(CopperSheets,alternateRecipes,output);
-        output.append("-\n\n");
-        new Screw(Screws,alternateRecipes,output);
+  public void copperRotor() {
+    double CopperSheets = num * COPPER_ROTOR_COPPER_SHEETS;
+    double Screws = num * COPPER_ROTOR_SCREWS;
+    append(ds.format(num) + " Copper Rotors / Minute:  " + ds.format(CopperSheets) + " Copper Sheets / minute |  " +
+        ds.format(Screws) + " Screws / minute. Requires  " + ds.format(num / COPPER_ROTOR_AMT_PER_MINUTE) + " Assemblers\n\n");
+    new CopperSheet(CopperSheets, alternateRecipes, output);
+    append("-\n\n");
+    new Screw(Screws, alternateRecipes, output);
 
-    }
+  }
 
-    public void steelRotor() {
-        double SteelPipes = num * 2;
-        double Wires = num * 6;
-        output.append(ds.format(num) + " Steel Rotors / Minute:  " + ds.format(SteelPipes) + " Steel Pipe / minute |  " +
-                ds.format(Wires) +" Wire / minute. Requires  " + ds.format(num/5) + " Assemblers\n\n");
-        new SteelPipe(SteelPipes,alternateRecipes,output);
-        output.append("-\n\n");
-        new Wire(Wires,alternateRecipes,output);
-    }
+  public void steelRotor() {
+    double SteelPipes = num * STEEL_ROTOR_STEEL_PIPES;
+    double Wires = num * STEEL_ROTOR_WIRE;
+    append(ds.format(num) + " Steel Rotors / Minute:  " + ds.format(SteelPipes) + " Steel Pipe / minute |  " +
+        ds.format(Wires) + " Wire / minute. Requires  " + ds.format(num / STEEL_ROTOR_AMT_PER_MINUTE) + " Assemblers\n\n");
+    new SteelPipe(SteelPipes, alternateRecipes, output);
+    append("-\n\n");
+    new Wire(Wires, alternateRecipes, output);
+  }
 
 }

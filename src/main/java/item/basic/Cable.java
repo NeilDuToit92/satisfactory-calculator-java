@@ -5,83 +5,85 @@
  */
 package item.basic;
 
+import item.Item;
+import item.ItemBase;
 import item.intermediate.HeavyOilResidue;
 import item.intermediate.Rubber;
 
 import javax.swing.*;
-import java.text.DecimalFormat;
-import java.util.List;
+import java.util.Map;
 
-/**
- *
- * @author kiwi0
- */
-public class Cable {
+public class Cable extends ItemBase {
+  public static final int DEFAULT_CABLE_WIRE = 2;
+  public static final int DEFAULT_CABLE_AMT_PER_MINUTE = 30;
 
-    private double num;
-    private List<JComboBox<String>> alternateRecipes;
-    private JTextArea output;
-    private DecimalFormat ds = new DecimalFormat("#.##");
+  public static final double COATED_CABLE_AMT_PER_MINUTE = 67.5;
+  public static final double COATED_CABLE_WIRE = (5 / 9.0);
+  public static final double COATED_CABLE_HEAVY_OIL_RESIDUE = (2 / 9.0);
 
-    public Cable(double num, List<JComboBox<String>> alternateRecipes, JTextArea output) {
-        this.num = num;
-        this.output = output;
-        this.alternateRecipes = alternateRecipes;
+  public static final double INSULATED_CABLE_WIRE = (9 / 20.0);
+  public static final double INSULATED_CABLE_RUBBER = (6 / 20.0);
+  public static final int INSULATED_CABLE_AMT_PER_MINUTE = 100;
 
-        if(alternateRecipes.get(37).getSelectedItem().toString() == "Default") {
-            defaultCable();
-        } else if(alternateRecipes.get(37).getSelectedItem().toString() == "Coated") {
-            coatedCable();
-        } else if(alternateRecipes.get(37).getSelectedItem().toString() == "Insulated") {
-            insulatedCable();
-        } else if(alternateRecipes.get(37).getSelectedItem().toString() == "Quickwire") {
-            quickwireCable();
-        }
+  public static final double QUICKWIRE_CABLE_QUICKWIRE = (3 / 11.0);
+  public static final double QUICKWIRE_CABLE_RUBBER = (2 / 11.0);
+  public static final double QUICKWIRE_CABLE_AMT_PER_MINUTE = 27.5;
+
+  public Cable(double num, Map<Item, JComboBox<String>> alternateRecipes, JTextArea output) {
+    super(num, alternateRecipes, output, Item.CABLE);
+
+    switch (getAlternateRecipeSelectedItem()) {
+      case "Default":
+        defaultCable();
+        break;
+      case "Coated":
+        coatedCable();
+        break;
+      case "Insulated":
+        insulatedCable();
+        break;
+      case "Quickwire":
+        quickwireCable();
+        break;
     }
+  }
 
-    public void defaultCable() {
-        double wire = num * 2;
-        output.append(ds.format(num) + " Cable / Minute: " + ds.format(wire) + "  Wire / minute. Requires  " + ds.format(num/30) + " Constructors\n\n");
-        new Wire(wire,alternateRecipes,output);
-    }
+  public void defaultCable() {
+    double wire = num * DEFAULT_CABLE_WIRE;
+    append(ds.format(num) + " Cable / Minute: " + ds.format(wire) + "  Wire / minute. Requires  " + ds.format(num / DEFAULT_CABLE_AMT_PER_MINUTE) + " Constructors\n\n");
+    new Wire(wire, alternateRecipes, output);
+  }
 
-    public void coatedCable() {
-        double wire = num * (5/9.0);
-        double heavyOilResidue = num * (2/9.0);
-        output.append(ds.format(num) + "  Coated Cable / Minute: " + ds.format(wire) + " Wire / minute |  " +
-                ds.format(heavyOilResidue) +" Heavy Oil Residue(m3) / minute. Requires  " + ds.format(num/67.5) + " Refineries\n\n");
-        new Wire(wire,alternateRecipes,output);
-        output.append("-\n\n");
-        new HeavyOilResidue(heavyOilResidue,alternateRecipes,output);
+  public void coatedCable() {
+    double wire = num * COATED_CABLE_WIRE;
+    double heavyOilResidue = num * COATED_CABLE_HEAVY_OIL_RESIDUE;
+    append(ds.format(num) + "  Coated Cable / Minute: " + ds.format(wire) + " Wire / minute |  " +
+        ds.format(heavyOilResidue) + " Heavy Oil Residue(m3) / minute. Requires  " + ds.format(num / COATED_CABLE_AMT_PER_MINUTE) + " Refineries\n\n");
+    new Wire(wire, alternateRecipes, output);
+    append("-\n\n");
+    new HeavyOilResidue(heavyOilResidue, alternateRecipes, output);
 
-    }
+  }
 
-    public void insulatedCable() {
-        double wire = num * (9/20.0);
-        double rubber = num * (6/20.0);
-        output.append(ds.format(num) + " Insulated Cable / Minute:  " + ds.format(wire) + " Wire / minute |  " +
-                ds.format(rubber) +" Rubber / minute. Requires  " + ds.format(num/100) + " Assemblers\n\n");
-        new Wire(wire,alternateRecipes,output);
-        output.append("-\n\n");
-        new Rubber(rubber,alternateRecipes,output);
-    }
+  public void insulatedCable() {
+    double wire = num * INSULATED_CABLE_WIRE;
+    double rubber = num * INSULATED_CABLE_RUBBER;
+    append(ds.format(num) + " Insulated Cable / Minute:  " + ds.format(wire) + " Wire / minute |  " +
+        ds.format(rubber) + " Rubber / minute. Requires  " + ds.format(num / INSULATED_CABLE_AMT_PER_MINUTE) + " Assemblers\n\n");
+    new Wire(wire, alternateRecipes, output);
+    append("-\n\n");
+    new Rubber(rubber, alternateRecipes, output);
+  }
 
-    public void quickwireCable() {
-        double quickWire = num * (3/11.0);
-        double rubber = num * (2/11.0);
-        output.append(ds.format(num) + " Quickwire Cable / Minute:  " + ds.format(quickWire) + " Quickwire / minute |  " +
-                ds.format(rubber) +" Rubber / minute. Requires  " + ds.format(num/27.5) + " Assemblers\n\n");
-        new Quickwire(quickWire,alternateRecipes,output);
-        output.append("-\n\n");
-        new Rubber(rubber,alternateRecipes,output);
-    }
-
-
-
-
-
-
-
+  public void quickwireCable() {
+    double quickWire = num * QUICKWIRE_CABLE_QUICKWIRE;
+    double rubber = num * QUICKWIRE_CABLE_RUBBER;
+    append(ds.format(num) + " Quickwire Cable / Minute:  " + ds.format(quickWire) + " Quickwire / minute |  " +
+        ds.format(rubber) + " Rubber / minute. Requires  " + ds.format(num / QUICKWIRE_CABLE_AMT_PER_MINUTE) + " Assemblers\n\n");
+    new Quickwire(quickWire, alternateRecipes, output);
+    append("-\n\n");
+    new Rubber(rubber, alternateRecipes, output);
+  }
 
 
 }

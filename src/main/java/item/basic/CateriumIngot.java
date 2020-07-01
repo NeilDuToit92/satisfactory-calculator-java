@@ -1,40 +1,44 @@
 package item.basic;
 
+import item.Item;
+import item.ItemBase;
+
 import javax.swing.*;
-import java.text.DecimalFormat;
-import java.util.List;
+import java.util.Map;
 
-public class CateriumIngot {
+public class CateriumIngot extends ItemBase {
 
-    private double num;
-    private List<JComboBox<String>> alternateRecipes;
-    private JTextArea output;
-    private DecimalFormat ds = new DecimalFormat("#.##");
+  public static final int DEFAULT_CATERIUM_AMT_PER_MINUTE = 15;
+  public static final int DEFAULT_CATERIUM_ORE = 3;
 
-    public CateriumIngot(double num, List<JComboBox<String>> alternateRecipes, JTextArea output) {
-        this.num = num;
-        this.output = output;
-        this.alternateRecipes = alternateRecipes;
+  public static final int PURE_CATERIUM_ORE = 2;
+  public static final int PURE_CATERIUM_WATER = 2;
+  public static final int PURE_CATERIUM_AMT_PER_MINUTE = 12;
 
+  public CateriumIngot(double num, Map<Item, JComboBox<String>> alternateRecipes, JTextArea output) {
+    super(num, alternateRecipes, output, Item.CATERIUM);
 
-        if (alternateRecipes.get(2).getSelectedItem().toString() == "Default") {
-            defaultCaterium();
-        } else if (alternateRecipes.get(2).getSelectedItem().toString() == "Pure") {
-            pureCaterium();
-        }
+    switch (getAlternateRecipeSelectedItem()) {
+      case "Default":
+        defaultCaterium();
+        break;
+      case "Pure":
+        pureCaterium();
+        break;
     }
+  }
 
-    public void defaultCaterium() {
-        double CateriumOre = num * 3;
-        output.append(ds.format(num) + " Caterium Ingots/Minute:  " + ds.format(CateriumOre) + " Caterium Ore / minute. Requires  " + ds.format(num/15) + " Smelters\n\n");
-    }
+  public void defaultCaterium() {
+    double CateriumOre = num * DEFAULT_CATERIUM_ORE;
+    append(ds.format(num) + " Caterium Ingots/Minute:  " + ds.format(CateriumOre) + " Caterium Ore / minute. Requires  " + ds.format(num / DEFAULT_CATERIUM_AMT_PER_MINUTE) + " Smelters\n\n");
+  }
 
-    public void pureCaterium() {
-        double CateriumOre = num * 2;
-        double water = num * 2;
-        output.append(ds.format(num) + " Pure Caterium Ingots/Minute:  " + ds.format(CateriumOre) + " Caterium Ore / minute |  " +
-                ds.format(water) +" Water(m3) / minute. Requires  " + ds.format(num/12) + " Refineries\n\n");
-    }
+  public void pureCaterium() {
+    double CateriumOre = num * PURE_CATERIUM_ORE;
+    double water = num * PURE_CATERIUM_WATER;
+    append(ds.format(num) + " Pure Caterium Ingots/Minute:  " + ds.format(CateriumOre) + " Caterium Ore / minute |  " +
+        ds.format(water) + " Water(m3) / minute. Requires  " + ds.format(num / PURE_CATERIUM_AMT_PER_MINUTE) + " Refineries\n\n");
+  }
 
 
 }

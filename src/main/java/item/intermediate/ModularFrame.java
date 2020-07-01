@@ -5,6 +5,8 @@
  */
 package item.intermediate;
 
+import item.Item;
+import item.ItemBase;
 import item.basic.IronRod;
 import item.basic.ReinforcedIronPlate;
 import item.basic.Screw;
@@ -13,80 +15,73 @@ import master.textHighlighter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.text.DecimalFormat;
-import java.util.List;
+import java.util.Map;
 
 /**
- *
  * @author kiwi0
  */
-public class ModularFrame {
+public class ModularFrame extends ItemBase {
 
-    private double num;
-    private List<JComboBox<String>> alternateRecipes;
-    private JTextArea output;
-    private DecimalFormat ds = new DecimalFormat("#.##");
+  public ModularFrame(double num, Map<Item, JComboBox<String>> alternateRecipes, JTextArea output) {
+    super(num, alternateRecipes, output, Item.MODULAR_FRAME);
 
-    public ModularFrame(double num, List<JComboBox<String>> alternateRecipes, JTextArea output) {
-        this.num = num;
-        this.output = output;
-        this.alternateRecipes = alternateRecipes;
-
-        if(alternateRecipes.get(11).getSelectedItem().toString() == "Default") {
-            defaultModularFrames();
-        } else if(alternateRecipes.get(11).getSelectedItem().toString() == "Bolted") {
-            boltedModularFrames();
-        } else if(alternateRecipes.get(11).getSelectedItem().toString() == "Steeled") {
-            steeledModularFrames();
-        }
+    switch (getAlternateRecipeSelectedItem()) {
+      case "Default":
+        defaultModularFrames();
+        break;
+      case "Bolted":
+        boltedModularFrames();
+        break;
+      case "Steeled":
+        steeledModularFrames();
+        break;
     }
+  }
 
-    public void defaultModularFrames() {
-        double reinforcedIronPlates = num * (3/2.0);
-        double ironRod = num * 6;
-        output.append(ds.format(num) + " Modular Frames / Minute:  " + ds.format(reinforcedIronPlates) + " R.I.P / minute |  " +
-                ds.format(ironRod) +" Iron Rods / minute. Requires  " + ds.format(num/2) + " Assemblers\n\n");
+  public void defaultModularFrames() {
+    double reinforcedIronPlates = num * (3 / 2.0);
+    double ironRod = num * 6;
+    append(ds.format(num) + " Modular Frames / Minute:  " + ds.format(reinforcedIronPlates) + " R.I.P / minute |  " +
+        ds.format(ironRod) + " Iron Rods / minute. Requires  " + ds.format(num / 2) + " Assemblers\n\n");
 
-        output.append("v-Modular Frame Start-v\n\n");
-        new textHighlighter("v-Modular Frame Start-v", new Color(15,162,169),output);
-        new ReinforcedIronPlate(reinforcedIronPlates,alternateRecipes,output);
-        output.append("-----\n\n");
-        new IronRod(ironRod,alternateRecipes,output);
-        output.append("^-Modular Frame End-^\n\n");
-        new textHighlighter("^-Modular Frame End-^", new Color(15,162,169),output);
-
-
+    append("v-Modular Frame Start-v\n\n");
+    new textHighlighter("v-Modular Frame Start-v", new Color(15, 162, 169), output);
+    new ReinforcedIronPlate(reinforcedIronPlates, alternateRecipes, output);
+    append("-----\n\n");
+    new IronRod(ironRod, alternateRecipes, output);
+    append("^-Modular Frame End-^\n\n");
+    new textHighlighter("^-Modular Frame End-^", new Color(15, 162, 169), output);
 
 
-    }
+  }
 
-    public void boltedModularFrames() {
-        double reinforcedIronPlates = num * (3/2.0);
-        double screws = num * 28;
-        output.append(ds.format(num) + " Bolted Modular Frames / Minute:  " + ds.format(reinforcedIronPlates) + " R.I.P / minute |  " +
-                ds.format(screws) +" Screws / minute. Requires  " + ds.format(num/5) + " Assemblers\n\n");
-        output.append("v-Bolted Modular Frame Start-v\n\n");
-        new textHighlighter("v-Bolted Modular Frame Start-v", new Color(15,162,169),output);
-        new ReinforcedIronPlate(reinforcedIronPlates,alternateRecipes,output);
-        output.append("-----\n\n");
-        new Screw(screws,alternateRecipes,output);
-        output.append("^-Bolted Modular Frame End-^\n\n");
-        new textHighlighter("^-Bolted Modular Frame End-^", new Color(15,162,169),output);
+  public void boltedModularFrames() {
+    double reinforcedIronPlates = num * (3 / 2.0);
+    double screws = num * 28;
+    append(ds.format(num) + " Bolted Modular Frames / Minute:  " + ds.format(reinforcedIronPlates) + " R.I.P / minute |  " +
+        ds.format(screws) + " Screws / minute. Requires  " + ds.format(num / 5) + " Assemblers\n\n");
+    append("v-Bolted Modular Frame Start-v\n\n");
+    new textHighlighter("v-Bolted Modular Frame Start-v", new Color(15, 162, 169), output);
+    new ReinforcedIronPlate(reinforcedIronPlates, alternateRecipes, output);
+    append("-----\n\n");
+    new Screw(screws, alternateRecipes, output);
+    append("^-Bolted Modular Frame End-^\n\n");
+    new textHighlighter("^-Bolted Modular Frame End-^", new Color(15, 162, 169), output);
 
-    }
+  }
 
-    public void steeledModularFrames() {
-        double steelPipe = num * (10/3.0);
-        double reinforcedIronPlate = num * (2/3.0);
-        output.append(ds.format(num) + " Steeled Modular Frames / Minute:  " + ds.format(steelPipe) + " Steel Pipes / minute |  " +
-                ds.format(reinforcedIronPlate) +" R.I.P / minute. Requires  " + ds.format(num/3) + " Assemblers\n\n");
-        output.append("v-Steeled Modular Frame Start-v\n\n");
-        new textHighlighter("v-Steeled Modular Frame Start-v", new Color(15,162,169),output);
-        new SteelPipe(steelPipe,alternateRecipes,output);
-        output.append("-----\n\n");
-        new ReinforcedIronPlate(reinforcedIronPlate,alternateRecipes,output);
-        output.append("^-Steeled Modular Frame End-^\n\n");
-        new textHighlighter("^-Steeled Modular Frame End-^", new Color(15,162,169),output);
-    }
+  public void steeledModularFrames() {
+    double steelPipe = num * (10 / 3.0);
+    double reinforcedIronPlate = num * (2 / 3.0);
+    append(ds.format(num) + " Steeled Modular Frames / Minute:  " + ds.format(steelPipe) + " Steel Pipes / minute |  " +
+        ds.format(reinforcedIronPlate) + " R.I.P / minute. Requires  " + ds.format(num / 3) + " Assemblers\n\n");
+    append("v-Steeled Modular Frame Start-v\n\n");
+    new textHighlighter("v-Steeled Modular Frame Start-v", new Color(15, 162, 169), output);
+    new SteelPipe(steelPipe, alternateRecipes, output);
+    append("-----\n\n");
+    new ReinforcedIronPlate(reinforcedIronPlate, alternateRecipes, output);
+    append("^-Steeled Modular Frame End-^\n\n");
+    new textHighlighter("^-Steeled Modular Frame End-^", new Color(15, 162, 169), output);
+  }
 
 }
